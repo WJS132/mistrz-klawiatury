@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+      integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Mistrz klawiatury</title>
+  </head>
+  <body>
+        
+    <div class="container">
+      <h2>Mistrz klawiatury</h2>
+      <small>Przepisz słowo:</small>
+
+      <h1 id="word"></h1>
+
+      <input
+        type="text"
+        id="text"
+        autocomplete="off"
+        placeholder="Przepisz słowo..."
+      />
+
+      <p class="time-container">Zostało czasu: <span id="time">10s</span></p>
+
+      <p class="score-container">Punkty: <span id="score">0</span></p>
+
+      <div id="end-game-container" class="end-game-container"></div>
+    </div>
+
+    <script>
+
+      const words = [
+        'essa', 'baza', 'odklejka', 'onuca', 'pokemon', 'skibidi', 'sigma', 'bambik',
+        'cringe', 'git', 'LOL', 'aura', 'azbest', 'oporowo', 'sztos', 'xD', 'alternatywka',
+        'rel', 'beka', 'masakra', 'dzban', 'konstantynopolitańczykowianeczka'
+      ];
+
+      let word = document.getElementById("word");
+      let text = document.getElementById("text");
+      let score = document.getElementById("score");
+      let time = document.getElementById("time");
+      let endgame = document.getElementById("end-game-container");
+      let czas = 10;
+      let noweSlowo = "";
+      let punkty = 0;
+
+
+      function startTimer(){
+        let timer = setInterval(() => {
+          time.textContent = czas + "s";
+          czas --;
+          if(czas <= 0){
+            endgame.innerHTML = `<h1>Koniec gry!</h1>
+            <p>Twój wynik: ${punkty}</p>
+            <button onclick="location.reload()">Zagraj ponownie</button>`;
+            endgame.style.display = "flex";
+
+          }
+          
+        }, 1000);
+      }
+
+      function getRandomWord(){
+        noweSlowo = words[Math.floor(Math.random() * words.length)];
+        word.textContent = noweSlowo;
+        return noweSlowo;
+      }
+
+      function pisanie(){
+        if(text.value == noweSlowo){
+          punkty += 1;
+          score.textContent = punkty;
+          text.value = "";
+          getRandomWord();
+          czas += 2;
+        }
+      }
+      getRandomWord();
+      text.addEventListener("input", pisanie);
+      startTimer();
+
+      
+
+    </script>
+  </body>
+</html>
